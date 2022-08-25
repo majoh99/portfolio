@@ -1,0 +1,125 @@
+// app global css in SCSS form
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Poppins:wght@400;500&display=swap");
+
+html {
+  font-size: 62.5%;
+}
+body {
+  font-family: "Poppins", sans-serif;
+}
+body,
+p,
+.text-body1,
+.text-subtitle1 {
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+}
+.text-subtitle2 {
+  font-size: 1.4rem;
+}
+.text-caption {
+  font-size: 1.4rem;
+  line-height: 2rem;
+}
+h1.title {
+  font-size: 6.5rem;
+  line-height: 80px;
+}
+h2.title {
+  font-size: 5rem;
+  line-height: 70px;
+}
+.title {
+  font-family: "Montserrat", sans-serif;
+}
+
+.no-decoration {
+  text-decoration: none;
+}
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1024px;
+}
+.bg-light {
+  background-color: #f8f9fc;
+}
+.q-layout__shadow::after {
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
+}
+.slider-wrapper {
+  min-height: 600px;
+  & .is-typed {
+    height: 90px;
+  }
+}
+
+.ls-4 {
+  letter-spacing: 4px;
+}
+
+.q-img.img-profile {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1),
+    0 20px 40px rgba(255, 255, 255, 0.15);
+  border-radius: 100%;
+
+  & img {
+    border-radius: 100%;
+  }
+}
+
+/*     CARD PROEJCT      */
+.card-project {
+  & .q-img {
+    transition: 0.3s;
+  }
+  & .title-project {
+    height: 50px;
+  }
+  & .title-project:hover {
+    color: var(--q-primary);
+  }
+}
+
+.card-project:hover .q-img {
+  box-shadow: 0 50px 80px -10px rgba(81, 134, 217, 0.18);
+  transform: translate3d(0, -10px, 0);
+}
+
+/*     END CARD PROEJCT      */
+
+/*     Media Queries     */
+
+@media only screen and (max-width: 1024px) {
+  h1.title {
+    font-size: 4.8rem;
+    line-height: 65px;
+  }
+  h2.title {
+    font-size: 3.3rem;
+    line-height: 55px;
+  }
+}
+
+@media only screen and (max-width: 599.99px) {
+  h1.title {
+    font-size: 4.3rem;
+    line-height: 55px;
+  }
+  h2.title {
+    font-size: 2.8rem;
+    line-height: 45px;
+  }
+}
+@media only screen and (max-width: 500px) {
+  h1.title {
+    font-size: 3.2rem;
+    line-height: 49px;
+  }
+  h2.title {
+    font-size: 1.7rem;
+    line-height: 30px;
+  }
+}
