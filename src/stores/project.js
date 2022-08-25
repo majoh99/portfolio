@@ -16,11 +16,7 @@ export const useProjects = defineStore("project", {
     proyectos: ref([]),
     proyecto: ref([]),
   }),
-  getters: {
-    // getProject: (state) => {
-    //   return (id) => state.proyectos.filter((project) => project.id === id);
-    // },
-  },
+  getters: {},
   actions: {
     async projectList() {
       if (this.proyectos.length > 1) {
@@ -48,14 +44,6 @@ export const useProjects = defineStore("project", {
 
         const docSnap = await getDoc(q);
         this.proyecto = docSnap.data();
-        /* const q = query(collection(db, "project"), where("__name__", "==", id));
-
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          let pro = doc.data();
-          pro.id = doc.id;
-          this.proyecto = pro;
-        }); */
       } catch (error) {
         console.log(error);
       }
