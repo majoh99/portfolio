@@ -8,6 +8,7 @@ const proyecto = useProjects();
 
 onMounted(() => {
   proyecto.getProject(route.params.id);
+  window.scrollTo(0, 0);
 });
 </script>
 
@@ -90,6 +91,29 @@ onMounted(() => {
                 />
               </div>
             </div>
+          </div>
+        </div>
+        <div
+          v-if="proyecto.proyecto.images?.length"
+          class="col-12 flex justify-center"
+        >
+          <h2 class="title">Galería</h2>
+        </div>
+        <div
+          v-if="proyecto.proyecto.images?.length"
+          class="row col-12 flex justify-center"
+        >
+          <div
+            v-for="item in proyecto.proyecto.images"
+            :key="item.id"
+            class="col-12 q-mb-lg"
+          >
+            <q-img
+              class="rounded-borders"
+              fit="contain"
+              style="max-height: 1100px"
+              :src="'../../public/' + item"
+            />
           </div>
         </div>
       </div>

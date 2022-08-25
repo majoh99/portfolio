@@ -145,8 +145,16 @@
           :duration="200"
         >
           <component :is="Component" />
+          <!-- place QPageScroller at end of page -->
         </transition>
       </router-view>
+      <q-page-scroller
+        position="bottom-right"
+        :scroll-offset="150"
+        :offset="[18, 18]"
+      >
+        <q-btn fab icon="keyboard_arrow_up" color="primary" />
+      </q-page-scroller>
     </q-page-container>
 
     <q-footer bordered class="bg-dark text-white q-px-md q-py-lg">
