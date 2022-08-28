@@ -23,7 +23,7 @@ onMounted(() => {
       </div>
       <div class="col-12 flex justify-center">
         <div class="text-subtitle1 text-blue-grey-8 text-center">
-          Aquí puedes ver algunos de mis proyectos
+          Aquí puedes ver algunos de los proyectos en los que he colaborado
         </div>
       </div>
       <div class="row flex items-start q-mt-xl q-col-gutter-md">
@@ -36,6 +36,7 @@ onMounted(() => {
             <RouterLink :to="`/project/${item.id}`">
               <div class="q-mb-sm">
                 <q-img
+                  :alt="'Banner ' + item.name"
                   class="rounded-borders cursor-pointer"
                   :src="item.banner"
                 />

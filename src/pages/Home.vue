@@ -6,9 +6,10 @@
     >
       <div class="col-xs-12 col-sm-4 col-md-4 flex items-center justify-center">
         <q-img
+          loading="eager"
           class="img-profile"
           width="300px"
-          src="~assets/photo_mariam_rosal_dev.png"
+          src="~assets/photo_mariam_rosal_dev.webp"
         />
       </div>
       <div class="col flex column justify-center text-dark">

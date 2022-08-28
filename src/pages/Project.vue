@@ -33,6 +33,8 @@ onMounted(() => {
       <div class="row col-12 q-col-gutter-md q-mb-xl items-start">
         <div class="col-12 col-sm-12 col-md-8 flex items-center justify-center">
           <q-img
+            loading="eager"
+            :alt="'Banner ' + proyecto.proyecto.name"
             class="rounded-borders"
             fit="contain"
             style="max-height: 500px"
@@ -42,36 +44,36 @@ onMounted(() => {
         <div class="col-12 col-sm-12 col-md-4 flex">
           <div class="col flex bg-white rounded-borders q-pa-lg">
             <div class="flex column">
-              <h4
+              <div
                 v-if="proyecto.proyecto.description"
-                class="q-mb-sm q-mt-sm text-weight-medium"
+                class="q-mb-sm q-mt-sm text-weight-medium info-project"
               >
                 Proyecto
-              </h4>
+              </div>
               <div
                 v-if="proyecto.proyecto.description"
                 class="text-blue-grey-8 q-mb-lg text-justify"
               >
                 {{ proyecto.proyecto.description }}
               </div>
-              <h4
+              <div
                 v-if="proyecto.proyecto.category"
-                class="q-mb-sm q-mt-sm text-weight-medium"
+                class="q-mb-sm q-mt-sm text-weight-medium info-project"
               >
                 Categoría
-              </h4>
+              </div>
               <div
                 v-if="proyecto.proyecto.category"
                 class="text-blue-grey-8 q-mb-lg"
               >
                 {{ proyecto.proyecto.category.join(", ") }}
               </div>
-              <h4
+              <div
                 v-if="proyecto.proyecto.skills"
-                class="q-mb-sm q-mt-sm text-weight-medium"
+                class="q-mb-sm q-mt-sm text-weight-medium info-project"
               >
                 Tecnologías
-              </h4>
+              </div>
               <div
                 v-if="proyecto.proyecto.skills"
                 class="text-blue-grey-8 q-mb-lg"
@@ -109,6 +111,7 @@ onMounted(() => {
             class="col-12 q-mb-lg"
           >
             <q-img
+              :alt="proyecto.proyecto.name + ' ' + item.id"
               class="rounded-borders"
               fit="contain"
               style="max-height: 1100px"

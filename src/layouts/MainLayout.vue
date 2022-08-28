@@ -53,6 +53,7 @@
         />
         <q-btn
           @click="drawer = !drawer"
+          aria-label="menu"
           class="lt-sm"
           dense
           flat
@@ -153,7 +154,12 @@
         :scroll-offset="150"
         :offset="[18, 18]"
       >
-        <q-btn fab icon="keyboard_arrow_up" color="primary" />
+        <q-btn
+          aria-label="Ir arriba"
+          fab
+          icon="keyboard_arrow_up"
+          color="primary"
+        />
       </q-page-scroller>
     </q-page-container>
 
@@ -179,6 +185,7 @@
             flat
             color="white"
             icon="whatsapp"
+            aria-label="WhatsApp"
           />
           <q-btn
             round
@@ -189,6 +196,7 @@
             flat
             color="white"
             icon="eva-linkedin"
+            aria-label="Linkedin"
           />
           <q-btn
             round
@@ -199,6 +207,7 @@
             flat
             color="white"
             icon="eva-github"
+            aria-label="Github"
           />
         </div>
       </div>
