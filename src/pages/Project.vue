@@ -38,7 +38,7 @@ onMounted(() => {
             class="rounded-borders"
             fit="contain"
             style="max-height: 500px"
-            :src="proyecto.proyecto.banner"
+            :src="'../' + proyecto.proyecto.banner"
           />
         </div>
         <div class="col-12 col-sm-12 col-md-4 flex">
@@ -115,7 +115,7 @@ onMounted(() => {
               class="rounded-borders"
               fit="contain"
               style="max-height: 1100px"
-              :src="item"
+              :src="'../' + item"
             />
           </div>
         </div>
