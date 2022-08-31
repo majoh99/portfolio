@@ -18,6 +18,8 @@
       </div>
       <div class="col-12 flex justify-center">
         <q-btn
+          href="https://drive.google.com/file/d/14XnFU9_y0jBMsDoBCLeCybCB7lGnlIA-/view?usp=sharing"
+          target="_blank"
           class="gt-xs q-ml-lg"
           outline
           color="primary"
@@ -30,7 +32,14 @@
 </template>
 
 <script>
-export default {};
+import { defineComponent, ref } from "vue";
+
+export default defineComponent({
+  setup() {
+    return {};
+  },
+  methods: {},
+});
 </script>
 
 <style></style>
