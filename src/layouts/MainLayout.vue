@@ -3,11 +3,10 @@
     <q-header reveal elevated class="bg-white text-dark" height-hint="98">
       <q-toolbar class="container">
         <q-toolbar-title>
-          <q-img
+          <q-icon
             @click="goToHome()"
-            class="cursor-pointer"
-            width="60px"
-            src="/logos/logo_dark.svg"
+            class="cursor-pointer icon-logo-nav"
+            name="img:logos/logo_dark.svg"
           />
         </q-toolbar-title>
         <q-tabs
@@ -165,11 +164,10 @@
 
     <q-footer bordered class="bg-dark text-white q-px-md q-py-lg">
       <div class="flex items-center justify-center col-12 column q-mb-xl">
-        <q-img
+        <q-icon
           @click="goToHome()"
-          class="q-mb-lg"
-          width="200px"
-          src="/logos/logo_light.svg"
+          class="q-mb-lg icon-logo-footer"
+          name="img:logos/logo_light.svg"
         />
         <div class="text-center text-subtitle1 q-mb-sm">
           Si estas interesado en trabajar conmigo o tienes alguna propuesta de
