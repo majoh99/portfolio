@@ -6,21 +6,23 @@
       </div>
       <div class="col-12 flex justify-center q-mb-xl">
         <div class="text-subtitle1 text-blue-grey-8 text-center">
-          Soy Ingeniero de Sistemas con experiencia en
+          Soy <span class="text-weight-medium">Desarrolladora Web</span> con más
+          de 4 años de experiencia, especializada en el Frontend y con formación
+          como Ingeniero de Sistemas. Mi enfoque principal ha sido el
           <span class="text-weight-medium"
-            >Diseño y Desarrollo Web Frontend</span
+            >diseño y desarrollo de sitios y aplicaciones web</span
           >
-          y en aplicación de
-          <span class="text-weight-medium">técnicas SEO</span> para sitios web y
-          aplicaciones. Constantemente estoy aprendiendo nuevas habilidades para
-          fortalecer mi crecimiento personal.
+          con interfaces de usuario atractivas y altamente funcionales. Me
+          apasiona crear soluciones tecnológicas que generen un impacto positivo
+          en las personas y la sociedad. Constantemente estoy aprendiendo nuevas
+          habilidades para fortalecer mi crecimiento personal y profesional.
         </div>
       </div>
       <div class="col-12 flex justify-center">
         <q-btn
-          href="https://drive.google.com/file/d/14XnFU9_y0jBMsDoBCLeCybCB7lGnlIA-/view?usp=sharing"
+          href="https://drive.google.com/file/d/1vxndtLBLbBooTHTM7pspepLijHQLFR_M/view?usp=drive_link"
           target="_blank"
-          class="gt-xs q-ml-lg"
+          class="q-ml-lg"
           outline
           color="primary"
           label="Descargar CV"
@@ -30,16 +32,3 @@
     </div>
   </section>
 </template>
-
-<script>
-import { defineComponent, ref } from "vue";
-
-export default defineComponent({
-  setup() {
-    return {};
-  },
-  methods: {},
-});
-</script>
-
-<style></style>

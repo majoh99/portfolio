@@ -6,7 +6,9 @@
     >
       <div class="col-xs-12 col-sm-4 col-md-4 flex items-center justify-center">
         <q-img
+          no-spinner
           loading="eager"
+          no-transition
           class="img-profile"
           width="300px"
           src="~assets/photo_mariam_rosal_dev.webp"
@@ -47,11 +49,7 @@ export default defineComponent({
   },
   setup() {
     return {
-      opt: [
-        "Desarrollador Web Frontend",
-        "Ingeniero de Sistemas",
-        "Consultor SEO",
-      ],
+      opt: ["Desarrollador Web Frontend", "Ingeniero de Sistemas"],
     };
   },
 });

@@ -21,11 +21,6 @@ onMounted(() => {
       <div class="col-12 flex justify-center">
         <h2 class="title q-mb-md">Portafolio</h2>
       </div>
-      <div class="col-12 flex justify-center">
-        <div class="text-subtitle1 text-blue-grey-8 text-center">
-          Aquí puedes ver algunos de los proyectos en los que he colaborado
-        </div>
-      </div>
       <div class="row flex items-start q-mt-xl q-col-gutter-md">
         <div
           v-for="item in proyecto.proyectos.slice().reverse()"
@@ -43,8 +38,17 @@ onMounted(() => {
               </div>
             </RouterLink>
             <div class="flex column">
-              <div class="text-body1 q-mb-sm text-blue-grey-8 category-project">
-                {{ item.category.join(", ") }}
+              <div
+                class="text-body1 q-mb-sm text-blue-grey-8 category-project q-gutter-sm"
+              >
+                <q-badge
+                  v-for="i in item.category"
+                  :key="i.id"
+                  rounded
+                  color="pink-1"
+                  text-color="primary"
+                  :label="i"
+                />
               </div>
               <RouterLink
                 class="text-dark no-decoration"
