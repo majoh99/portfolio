@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/home/Hero.astro';
+import Skills from '../components/home/Skills.astro';
+import ProjectCard from '../components/home/ProjectCard.astro';
+import ExperienceTimeline from '../components/home/ExperienceTimeline.astro';
+import { getCollection, getEntry } from 'astro:content';
+
+const projects = await getCollection('projects');
+const profileElement = await getEntry('profile', 'info');
+
+if (!profileElement) {
+	throw new Error("Profile info not found in src/content/profile/info.json");
+}
+
+const profile = profileElement.data;
+
+const sortedProjects = projects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const featuredProjects = sortedProjects.slice(0, 3);
+---
+
+<Layout title={`${profile.name} | ${profile.title}`}>
+	<Hero 
+		name={profile.name}
+		title={profile.title}
+		image={profile.image}
+	/>
+
+	<!-- About / Skills Section -->
+	<section id="about" class="py-20 relative">
+		<div class="max-w-5xl mx-auto px-4">
+			<h2 class="text-4xl font-bold mb-12 flex items-center gap-4 text-gray-900 dark:text-white">
+				<span class="w-12 h-1 bg-linear-to-r from-purple-500 to-pink-500 rounded-full"></span>
+				Sobre mí
+			</h2>
+			<div class="grid md:grid-cols-2 gap-16 items-start">
+				<div class="space-y-6">
+					<p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-light">
+						{profile.bio}
+					</p>
+				</div>
+
+				<div class="space-y-6">
+					<h3 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+						<span class="p-1 rounded bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300">
+							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+						</span>
+						Stack Tecnológico
+					</h3>
+					<Skills />
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Experience Section -->
+	<section id="experience" class="py-20 bg-gray-50/50 dark:bg-white/5 border-y border-gray-100 dark:border-white/5 relative overflow-hidden">
+		<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-purple-100/20 via-transparent to-transparent dark:from-purple-900/10 dark:via-transparent dark:to-transparent pointer-events-none"></div>
+		<div class="max-w-4xl mx-auto px-4 relative z-10">
+			<h2 class="text-4xl font-bold mb-16 flex items-center gap-4 text-gray-900 dark:text-white">
+				<span class="w-12 h-1 bg-linear-to-r from-purple-500 to-pink-500 rounded-full"></span>
+				Trayectoria Profesional
+			</h2>
+			
+			<ExperienceTimeline />
+			
+		</div>
+	</section>
+
+	<!-- Projects Section -->
+	<section id="projects" class="py-24 border-y border-gray-100 dark:border-white/5">
+		<div class="max-w-5xl mx-auto px-4">
+			<h2 class="text-4xl md:text-5xl font-bold mb-16 flex items-center gap-4 text-gray-900 dark:text-white">
+				<span class="w-12 h-1 bg-linear-to-r from-purple-500 to-pink-500 rounded-full"></span>
+				Proyectos Destacados
+			</h2>
+			<div class="space-y-12">
+				{featuredProjects.map(project => (
+					<ProjectCard project={project} />
+				))}
+			</div>
+
+			<div class="mt-20 text-center">
+				<a href="/proyectos" class="inline-flex items-center gap-3 px-10 py-5 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full font-bold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-white/10 transition-all hover:scale-105 shadow-sm hover:shadow-xl group">
+					Ver todos los proyectos
+					<svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Contact Section -->
+	<section id="contact" class="py-32 text-center">
+		<div class="max-w-4xl mx-auto px-4">
+			<div class="p-12 rounded-[3rem] bg-linear-to-br from-purple-50 to-blue-50 dark:from-purple-900/30 dark:to-black/50 border border-gray-200 dark:border-white/10 backdrop-blur-xl relative overflow-hidden group">
+				<div class="absolute inset-0 bg-linear-to-r from-purple-500/5 to-pink-500/5 dark:from-purple-500/10 dark:to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+				
+				<h2 class="text-6xl font-bold mb-8 relative z-10 tracking-tight text-gray-900 dark:text-white">¿Creamos algo increíble?</h2>
+				<p class="text-2xl text-gray-600 dark:text-white/60 mb-12 max-w-2xl mx-auto relative z-10">
+					Estoy lista para llevar tu próximo proyecto al siguiente nivel.
+				</p>
+				
+				<div class="relative z-10 flex flex-col sm:flex-row gap-6 justify-center">
+					<a href={`mailto:${profile.email}`} class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-purple-600 text-white font-bold rounded-full hover:bg-purple-700 transition-all hover:scale-105 shadow-[0_0_30px_rgba(147,51,234,0.5)]">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+						Contactar por Email
+					</a>
+					<a href="https://linkedin.com/in/mariam-rosal" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white dark:bg-white/10 text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 font-bold rounded-full hover:bg-gray-50 dark:hover:bg-white/20 transition-all hover:scale-105">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+						LinkedIn
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</Layout>

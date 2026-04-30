@@ -1,0 +1,113 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(entry => ({
+    params: { slug: entry.id }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, description, image, tags, link, repo, gallery, date } = entry.data;
+
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' }).format(date);
+};
+---
+
+<Layout title={`${title} | Proyecto`} description={description}>
+  <article class="py-12 max-w-4xl mx-auto">
+    <!-- Back button -->
+    <a href="/proyectos" class="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-bold hover:underline mb-12 group">
+      <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+      Volver a proyectos
+    </a>
+
+    <!-- Header -->
+    <header class="mb-16">
+      <div class="flex flex-wrap gap-3 mb-6">
+        {tags.map(tag => (
+          <span class="px-4 py-1.5 text-sm font-bold tracking-wide text-purple-600 dark:text-purple-300 bg-purple-50 dark:bg-purple-900/30 rounded-full border border-purple-100 dark:border-purple-500/20">
+            {tag}
+          </span>
+        ))}
+      </div>
+      
+      <h1 class="text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight tracking-tight">
+        {title}
+      </h1>
+
+     
+    </header>
+
+    <!-- Main Image -->
+    <div class="mb-20 rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-200 dark:border-white/10 aspect-video">
+      <img src={image} alt={title} class="w-full h-full object-cover" />
+    </div>
+
+    <!-- Content Grid -->
+    <div class="grid md:grid-cols-3 gap-16">
+      <div class="md:col-span-2 prose prose-xl dark:prose-invert prose-purple max-w-none">
+        <h2 class="text-3xl font-bold mb-6">Sobre el proyecto</h2>
+        <Content />
+      </div>
+
+      <div class="space-y-12">
+        <div>
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <span class="w-1.5 h-6 bg-purple-500 rounded-full"></span>
+            Resumen
+          </h3>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed italic text-lg">
+            "{description}"
+          </p>
+        </div>
+        {link && (
+          <a href={link} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-purple-600 dark:text-purple-400 hover:underline font-medium">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            Visitar
+          </a>
+        )}
+
+        {repo && (
+          <div>
+            <h3 class="text-xl font-bold mb-4">Repositorio</h3>
+            <a href={repo} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-bold hover:scale-105 transition-transform">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
+              GitHub
+            </a>
+          </div>
+        )}
+      </div>
+    </div>
+
+    <!-- Gallery Section -->
+    {gallery && gallery.length > 0 && (
+      <section class="mt-32">
+        <h2 class="text-4xl font-bold mb-12 flex items-center gap-4">
+          <span class="w-12 h-1 bg-linear-to-r from-purple-500 to-pink-500 rounded-full"></span>
+          Galería del Proyecto
+        </h2>
+        <div class="flex flex-col gap-12">
+          {gallery.map((img, index) => (
+            <div class="rounded-[3rem] overflow-hidden border border-gray-100 dark:border-white/10 shadow-lg hover:shadow-2xl transition-all duration-500">
+              <img src={img} alt={`Imagen ${index + 1} de ${title}`} class="w-full h-auto" />
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Call to action -->
+    <div class="mt-32 p-12 rounded-[3rem] bg-linear-to-br from-purple-500 to-pink-600 text-white text-center shadow-2xl shadow-purple-500/20">
+      <h2 class="text-3xl font-bold mb-6">¿Te gusta lo que ves?</h2>
+      <p class="text-xl text-white/80 mb-8">Hablemos sobre cómo puedo ayudar en tu próximo desafío técnico.</p>
+      <a href="/#contact" class="inline-flex items-center gap-2 px-10 py-4 bg-white text-purple-600 rounded-full font-bold hover:scale-105 transition-all">
+        Contactar ahora
+      </a>
+    </div>
+  </article>
+</Layout>

@@ -1,0 +1,83 @@
+---
+---
+<button
+  id="theme-toggle"
+  class="p-2 rounded-full bg-gray-200 dark:bg-white/10 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500"
+  aria-label="Toggle theme"
+>
+  <!-- Sun Icon -->
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="w-5 h-5 block dark:hidden"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+    />
+  </svg>
+  <!-- Moon Icon -->
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="w-5 h-5 hidden dark:block"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+    />
+  </svg>
+</button>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+  
+  // Theme handling logic
+  const getTheme = () => {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+      return localStorage.getItem('theme');
+    }
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return 'light';
+  };
+
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  const setTheme = (theme: string) => {
+    if (theme === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+    localStorage.setItem('theme', theme);
+  };
+
+  // Initialize
+  setTheme(getTheme() || 'light');
+
+  // Toggle Listener
+  themeToggle?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.contains('dark');
+    setTheme(isDark ? 'light' : 'dark');
+  });
+
+  // Listen for view transitions to re-apply logic if needed
+  document.addEventListener('astro:after-swap', () => {
+    setTheme(getTheme() || 'light');
+    // Re-attach listener since DOM is replaced
+    const newToggle = document.getElementById('theme-toggle');
+    newToggle?.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    });
+  });
+</script>

@@ -1,0 +1,62 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Portafolio de Desarrolladora Frontend" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<ClientRouter />
+	</head>
+	<body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white font-['Outfit'] antialiased selection:bg-purple-500 selection:text-white flex flex-col min-h-screen transition-colors duration-300">
+		<!-- Dynamic Background -->
+		<div class="fixed inset-0 -z-10 h-full w-full items-center px-5 py-24 bg-white dark:bg-gray-950">
+			<div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] dark:bg-[radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
+		</div>
+
+
+		
+		<Header />
+		
+		<main class="max-w-5xl mx-auto px-4 pt-24 pb-12 flex-grow">
+			<slot />
+		</main>
+
+		<Footer />
+	</body>
+</html>
+
+<style is:global>
+	/* Custom scrollbar */
+	::-webkit-scrollbar {
+		width: 10px;
+	}
+	::-webkit-scrollbar-track {
+		background: #0f172a; 
+	}
+	::-webkit-scrollbar-thumb {
+		background: #334155; 
+		border-radius: 5px;
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: #475569; 
+	}
+</style>
