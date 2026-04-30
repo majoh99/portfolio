@@ -1,11 +1,11 @@
 ---
 title: "Sitio web para la U.E. Pablo Romero Millán"
 description: "Diseño y desarrollo de un sitio web moderno y responsivo para la U.E. Pablo Romero Millán."
-image: "/public/images/projects/colegio-prm/banner_colegio_prm.webp"
+image: "images/projects/colegio-prm/banner_colegio_prm.webp"
 tags: ["Wordpress"]
 gallery:
-- "/public/images/projects/colegio-prm/img_1.webp"
-- "/public/images/projects/colegio-prm/img_2.webp"
+- "images/projects/colegio-prm/img_1.webp"
+- "images/projects/colegio-prm/img_2.webp"
 date: 2020-01-01
 ---
 

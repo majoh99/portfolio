@@ -1,7 +1,7 @@
 ---
 title: "E-commerce para Farmadon"
 description: "E-commerce de farmacia con delivery a domicilio y retiro en tienda, en Maturín, Venezuela. Incluye carrito de compras, checkout, gestión de pedidos y pagos en línea."
-image: "/public/images/projects/farmadon/banner_farmadon.webp"
+image: "images/projects/farmadon/banner_farmadon.webp"
 tags: ["Wordpress", "WooCommerce"]
 link: "https://farmadon.com.ve"
 date: 2023-08-15

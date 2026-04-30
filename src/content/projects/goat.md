@@ -1,7 +1,7 @@
 ---
 title: "Plataforma para torneos e-Sport: GOAT Club eSports"
 description: "Plataforma para torneos de e-Sport que permite a los usuarios crear equipos, unirse a torneos, competir y ganar premios. Incluye funcionalidades como gestión de equipos, gestión de torneos, pagos en línea y notificaciones."
-image: "/public/images/projects/goat/banner_goat_club_esports.webp"
+image: "images/projects/goat/banner_goat_club_esports.webp"
 tags: ["Wordpress"]
 date: 2022-03-01
 ---
