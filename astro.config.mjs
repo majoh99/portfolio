@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
 	site: 'https://majoh99.github.io',
-	base: '/prueba-astro',
+	base: '/portfolio',
 	vite: {
 		plugins: [tailwindcss()],
 	},
