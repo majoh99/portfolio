@@ -6,7 +6,6 @@ Bienvenido a mi portfolio construido con **Astro** y **Tailwind CSS**. Este siti
 
 - **Framework:** <a href="https://astro.build/" target="_blank">Astro 5</a>
 - **Estilos:** <a href="https://tailwindcss.com/" target="_blank">Tailwind CSS 4</a>
-- **Despliegue:** GitHub Actions & GitHub Pages
 - **Sitio Web:** <a href="https://majoh99.github.io/portfolio/" target="_blank">majoh99.github.io/portfolio</a>
 
 ## 📦 Instalación y Desarrollo
