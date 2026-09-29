@@ -3,6 +3,7 @@ title: "Aplicación móvil para NSA Exchange"
 description: "Aplicación B2B que funciona como un marketplace y red social, que conecta a proveedores y supermercados miembros de la NSA (National Supermarket Association) y entidades autorizadas"
 image: "images/projects/nsa-exchange/banner_app_nsa_exchange.webp"
 tags: ["Vue.js", "Quasar", "Capacitor"]
+category: "plataformas"
 date: 2021-11-01
 gallery:
   - "images/projects/nsa-exchange/social_network_nsa_exchange.webp"

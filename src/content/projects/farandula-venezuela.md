@@ -3,6 +3,7 @@ title: "Portal de noticias Farándula Venezuela"
 description: "Portal de noticias de farándula y el mundo del espectáculo."
 image: "images/projects/farandula-venezuela/banner_farandula_venezuela.webp"
 tags: ["Wordpress", "Google AdSense"]
+category: "plataformas"
 date: 2021-05-01
 ---
 

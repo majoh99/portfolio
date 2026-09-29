@@ -8,27 +8,29 @@ const sortedProjects = projects.sort((a, b) => b.data.date.valueOf() - a.data.da
 ---
 
 <Layout title="Todos los Proyectos | Mariam Rosal" description="Historial completo de proyectos desarrollados por Mariam Rosal">
-	<section class="py-12">
-		<div class="mb-16">
-			<h1 class="text-5xl font-bold mb-6 text-gray-900 dark:text-white tracking-tight">
+	<section class="relative overflow-hidden bg-transparent text-fg px-6 md:px-[72px] pt-32 pb-16">
+		<div class="relative max-w-[1200px] mx-auto">
+		<div class="mb-12">
+			<h1 class="font-display font-extrabold text-[clamp(36px,5vw,56px)] leading-[1.1] mb-6" data-reveal>
 				Todos los Proyectos
 			</h1>
-			<p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed">
+			<p class="text-lg text-fg-muted max-w-2xl leading-relaxed" data-reveal style="--delay:0.05s">
 				Aquí encontrarás una recopilación de mi trabajo, incluyendo aplicaciones activas y proyectos de archivo.
 			</p>
 		</div>
 
-		<div class="space-y-12">
-			{sortedProjects.map(project => (
-				<ProjectCard project={project} />
+		<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+			{sortedProjects.map((project, i) => (
+				<ProjectCard project={project} index={i} />
 			))}
 		</div>
 
 		<div class="mt-20">
-			<a href={`${import.meta.env.BASE_URL}#projects`} class="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-bold hover:underline underline-offset-4 transition-all">
+			<a href={`${import.meta.env.BASE_URL}#projects`} class="inline-flex items-center gap-2 font-mono text-sm text-accent hover:underline underline-offset-4 transition-all">
 				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
 				Volver al inicio
 			</a>
+		</div>
 		</div>
 	</section>
 </Layout>

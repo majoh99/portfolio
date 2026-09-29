@@ -7,6 +7,7 @@ const projects = defineCollection({
 		description: z.string(),
 		image: z.string(),
 		tags: z.array(z.string()),
+		category: z.enum(["ecommerce", "plataformas"]),
 		link: z.string().url().optional(),
 		repo: z.string().url().optional(),
 		gallery: z.array(z.string()).optional(),
@@ -41,6 +42,7 @@ const experience = defineCollection({
 		logo: z.string().optional(),
 		startDate: z.date(),
 		endDate: z.date().optional(), // If undefined, considered "Present"
+		period: z.string().optional(), // Overrides the formatted date range (e.g. when only the year is known)
 		skills: z.array(z.string()).optional(),
 		location: z.string().optional(),
 		url: z.string().url().optional(),

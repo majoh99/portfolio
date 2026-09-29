@@ -1,0 +1,197 @@
+---
+import { getCollection, render } from 'astro:content';
+
+const experience = (await getCollection('experience')).sort((a, b) => {
+  if (!a.data.endDate && b.data.endDate) return -1;
+  if (a.data.endDate && !b.data.endDate) return 1;
+  return b.data.startDate.valueOf() - a.data.startDate.valueOf();
+});
+
+const items = await Promise.all(
+  experience.map(async (entry) => {
+    const { Content } = await render(entry);
+    return { ...entry, Content };
+  }),
+);
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('es-ES', { month: 'short', year: 'numeric' }).format(date).replace('.', '');
+---
+
+<section id="experience" class="relative overflow-hidden bg-transparent text-fg px-6 md:px-[72px] py-16">
+  <div class="relative max-w-[1200px] mx-auto">
+    <div class="font-mono text-[15px] text-accent mb-2.5" data-reveal>/TRAYECTORIA</div>
+    <h2 class="font-display font-extrabold text-[clamp(32px,4vw,46px)] max-w-[640px] leading-[1.1] mb-10" data-reveal style="--delay:0.05s">Dónde he trabajado</h2>
+
+    <div data-accordion>
+      {items.map((item, i) => (
+        <div class="acc reveal" data-open={i === 0 ? 'true' : 'false'} data-reveal style={`--delay:${0.1 + i * 0.08}s`}>
+          <button type="button" class="acc-head" aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`exp-${item.id}`}>
+            <span class="acc-title-wrap">
+              <span class="acc-title">{item.data.company}</span>
+              <span class="acc-role">{item.data.role}</span>
+            </span>
+            <span class="acc-meta">
+              <span class="acc-date">
+                {item.data.period ?? `${formatDate(item.data.startDate)} — ${item.data.endDate ? formatDate(item.data.endDate) : 'Presente'}`}
+              </span>
+              <span class="acc-icon" aria-hidden="true"></span>
+            </span>
+          </button>
+          <div class="acc-panel" id={`exp-${item.id}`}>
+            <div class="acc-inner">
+              <div class="acc-content"><item.Content /></div>
+              {item.data.skills && (
+                <div class="acc-pills">
+                  {item.data.skills.map((skill) => <span>{skill}</span>)}
+                </div>
+              )}
+              {item.data.url && (
+                <a href={item.data.url} target="_blank" rel="noopener noreferrer" class="acc-link">
+                  {item.data.url.replace(/^https?:\/\//, '')} ↗
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .acc {
+    position: relative;
+    /* No overflow:hidden here on purpose. Combined with border-radius *and* a border
+       on the same box, Chromium clips the border's anti-aliased curve against the
+       overflow mask, and the two don't line up pixel-for-pixel — the straight edges
+       stay crisp (no curve to clip) but the corners visibly lose their border. Content
+       clipping for the collapse animation already happens one level down, on
+       .acc-inner, so this element doesn't need to clip anything itself. */
+    /* Same border-style (solid) in both open/closed states on purpose: animating a
+       property that flips between "none" and "solid" can't be interpolated, so the
+       browser has to snap it partway through the transition — that snap is exactly the
+       stray dark border some people notice for a frame when the item opens/closes.
+       Keeping border-style constant and only ever animating color/radius means there's
+       nothing left to snap. */
+    border: 1px solid transparent;
+    border-bottom-color: var(--border);
+    border-radius: 0;
+    transition: border-color 0.25s ease, border-radius 0.25s ease, background 0.25s ease, margin 0.25s ease;
+  }
+  .acc-head {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 26px 4px;
+    text-align: left;
+    cursor: pointer;
+    transition: padding 0.25s ease;
+    outline: none;
+  }
+  /* Keyboard focus only — avoids the native focus ring flashing on a plain mouse click */
+  .acc-head:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+    border-radius: 8px;
+  }
+  .acc-title-wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
+  .acc-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 26px;
+    transition: color 0.2s ease;
+  }
+  .acc-role { font-family: var(--font-mono); font-size: 13px; color: var(--subtle); }
+  .acc-meta { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
+  .acc-date { font-family: var(--font-mono); font-size: 12px; color: var(--subtle); }
+  .acc-icon { font-family: var(--font-mono); font-size: 18px; color: var(--marquee); }
+  .acc-icon::before { content: '↗'; }
+
+  .acc-panel {
+    position: relative;
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: grid-template-rows 0.25s ease, visibility 0s linear 0.25s;
+  }
+  .acc-inner { overflow: hidden; min-height: 0; }
+
+  .acc[data-open='false'] .acc-head:hover { padding-left: 14px; }
+  .acc[data-open='false'] .acc-head:hover .acc-title { color: var(--accent); }
+
+  /* Expanded: intense "Grano" gradient block */
+  .acc[data-open='true'] {
+    background: var(--sunset);
+    border-color: var(--sunset-border);
+    border-radius: 28px;
+    margin-bottom: 16px;
+  }
+  .acc[data-open='true'] .acc-head { padding: 32px 36px 0; align-items: flex-start; }
+  .acc[data-open='true'] .acc-title { font-weight: 800; font-size: 30px; color: var(--on-sunset); }
+  .acc[data-open='true'] .acc-role,
+  .acc[data-open='true'] .acc-date { color: var(--on-sunset-muted); }
+  .acc[data-open='true'] .acc-icon { color: var(--on-sunset); font-size: 22px; }
+  .acc[data-open='true'] .acc-icon::before { content: '×'; }
+  .acc[data-open='true'] .acc-panel {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition: grid-template-rows 0.25s ease, visibility 0s;
+  }
+  .acc[data-open='true'] .acc-inner { padding: 6px 36px 32px; }
+
+  .acc-content { color: var(--on-sunset); font-size: 14px; line-height: 1.9; max-width: 640px; margin-top: 12px; }
+  .acc-content :global(ul) { list-style: disc; padding-left: 18px; }
+  .acc-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .acc-pills span {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--pill-bg);
+    color: var(--pill-fg);
+    border: 1px solid var(--pill-border);
+  }
+  .acc-link {
+    display: inline-block;
+    margin-top: 16px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--on-sunset-muted);
+    transition: color 0.2s ease;
+  }
+  .acc-link:hover { color: var(--on-sunset); }
+
+  @media (max-width: 640px) {
+    .acc-title { font-size: 21px; }
+    .acc[data-open='true'] .acc-title { font-size: 24px; }
+    .acc-head { flex-wrap: wrap; gap: 8px; }
+    .acc[data-open='true'] .acc-head { padding: 24px 20px 0; }
+    .acc[data-open='true'] .acc-inner { padding: 6px 20px 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .acc, .acc-head, .acc-panel { transition: none; }
+  }
+</style>
+
+<script>
+  // Delegated so it survives ClientRouter DOM swaps. Exclusive accordion.
+  document.addEventListener('click', (e) => {
+    const head = (e.target as HTMLElement).closest<HTMLElement>('[data-accordion] .acc-head');
+    if (!head) return;
+    const item = head.closest<HTMLElement>('.acc')!;
+    const willOpen = item.dataset.open !== 'true';
+    item.parentElement?.querySelectorAll<HTMLElement>('.acc').forEach((el) => {
+      const open = el === item && willOpen;
+      el.dataset.open = String(open);
+      el.querySelector('.acc-head')?.setAttribute('aria-expanded', String(open));
+    });
+    // The click already told the person which item opened — don't also leave a
+    // keyboard-style focus ring sitting on the button.
+    head.blur();
+  });
+</script>

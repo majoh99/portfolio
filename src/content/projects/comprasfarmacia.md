@@ -3,6 +3,7 @@ title: "E-commerce para ComprasFarmacia"
 description: "Diseño y desarrollo de un e-commerce y responsivo para la farmacia ComprasFarmacia."
 image: "images/projects/comprasfarmacia/banner_comprasfarmacia.webp"
 tags: ["Wordpress", "WooCommerce"]
+category: "ecommerce"
 date: 2022-08-01
 gallery:
 - "images/projects/comprasfarmacia/img_1.webp"

@@ -1,22 +1,59 @@
 ---
+import { getEntry } from 'astro:content';
+
+const profileEntry = await getEntry('profile', 'info');
+if (!profileEntry) throw new Error('Profile info not found in src/content/profile/info.json');
+const { email, socials } = profileEntry.data;
+
 const year = new Date().getFullYear();
+const social = (platform: string) => socials.find((s) => s.platform.toLowerCase() === platform)?.url;
+const links = [
+  { label: 'LinkedIn', href: social('linkedin') },
+  { label: 'GitHub', href: social('github') },
+].filter((l): l is { label: string; href: string } => Boolean(l.href));
+
+const outline =
+  'border-[1.5px] border-on-sunset text-on-sunset px-8 py-4 rounded-[10px] text-[15px] font-semibold transition-all duration-200 hover:bg-on-sunset/10';
 ---
 
-<footer class="bg-gray-100/40 dark:bg-black/40 backdrop-blur-md border-t border-gray-200 dark:border-white/10 mt-auto">
-	<div class="max-w-5xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
-		<div class="flex items-center gap-2">
-			<span class="text-xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400">
-				&lt;MR/&gt;
-			</span>
-			<span class="text-sm text-gray-500 dark:text-white/40">
-				&copy; {year} Mariam Rosal
-			</span>
-		</div>
-		
-		
+<footer id="contact" class="bg-sunset relative overflow-hidden text-on-sunset px-6 md:px-[72px] py-16 min-h-[700px] flex mt-auto border-t border-[var(--sunset-border)]">
+  <div class="grain grain-max"></div>
 
-		<div class="text-sm text-gray-500 dark:text-white/40 flex items-center gap-1">
-			Hecho con <span class="text-pink-500 animate-pulse">❤</span> por Mariam Rosal
-		</div>
-	</div>
+  <div class="relative w-full max-w-[1200px] mx-auto flex flex-col justify-between gap-16">
+  <div class="relative flex items-center gap-2" data-reveal>
+    <span class="dot-pulse w-2 h-2 rounded-full bg-success"></span>
+    <span class="font-mono text-[13px] text-on-sunset-muted">Disponible para trabajar</span>
+  </div>
+
+  <div class="relative max-w-[920px]">
+    <div class="font-mono text-[15px] text-on-sunset-muted mb-4 opacity-85" data-reveal>/CONTACTO</div>
+    <h2 class="font-display font-extrabold text-[clamp(44px,7vw,76px)] leading-[1.02] mb-6" data-reveal style="--delay:0.05s">
+      ¿Creamos algo<br />increíble juntos?
+    </h2>
+    <p class="text-[19px] text-on-sunset-muted max-w-[520px] leading-[1.6] mb-10" data-reveal style="--delay:0.1s">
+      Estoy lista para llevar tu próximo proyecto al siguiente nivel.
+    </p>
+
+    <div class="flex flex-wrap gap-4" data-reveal style="--delay:0.15s">
+      <a
+        href={`mailto:${email}`}
+        class="bg-on-sunset text-on-sunset-inv px-8 py-4 rounded-[10px] text-[15px] font-semibold inline-flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-10px_rgba(var(--shadow-rgb),0.4)]"
+      >
+        Contactar por Email <span>→</span>
+      </a>
+      {links.map((l) => (
+        <a href={l.href} target="_blank" rel="noopener noreferrer" class={outline}>{l.label}</a>
+      ))}
+    </div>
+  </div>
+
+  <div class="relative flex flex-wrap justify-between items-center gap-2 border-t border-hairline pt-6">
+    <div class="flex items-center gap-3 font-mono text-sm text-on-sunset-muted">
+      <img src={`${import.meta.env.BASE_URL}logo-dark.svg`} alt="MR" width="66" height="18" class="h-[18px] w-auto dark:hidden" />
+      <img src={`${import.meta.env.BASE_URL}logo-light-with-accent.svg`} alt="MR" width="66" height="18" class="h-[18px] w-auto hidden dark:block" />
+      © {year} Mariam Rosal
+    </div>
+    <div class="font-mono text-xs text-on-sunset-muted opacity-75">Hecho con ❤ por Mariam Rosal</div>
+  </div>
+  </div>
 </footer>

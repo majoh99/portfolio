@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ScrollTop from '../components/ScrollTop.astro';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
@@ -18,29 +19,106 @@ const { title, description = "Portafolio de Desarrolladora Frontend" } = Astro.p
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+		<link id="favicon" rel="icon" type="image/x-icon" href={`${import.meta.env.BASE_URL}favicon-light.ico`} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 		<ClientRouter />
 	</head>
-	<body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white font-['Outfit'] antialiased selection:bg-purple-500 selection:text-white flex flex-col min-h-screen transition-colors duration-300">
-		<!-- Dynamic Background -->
-		<div class="fixed inset-0 -z-10 h-full w-full items-center px-5 py-24 bg-white dark:bg-gray-950">
-			<div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] dark:bg-[radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
+	<body class="bg-bg text-fg font-body antialiased selection:bg-accent selection:text-bg flex flex-col min-h-screen transition-colors duration-300">
+		<!-- One continuous ambient layer (grain + glow) fixed behind the whole page, so the
+		     background never seams or cuts at a section boundary. -->
+		<div class="ambient-bg" aria-hidden="true">
+			<div class="grain"></div>
+			<div class="glow glow-soft w-[60vw] h-[60vw] max-w-[820px] max-h-[820px] -top-[15vw] -right-[10vw]"></div>
+			<div class="glow glow-soft w-[50vw] h-[50vw] max-w-[680px] max-h-[680px] -bottom-[20vw] -left-[12vw]"></div>
 		</div>
+		<div class="cursor-glow" data-cursor-glow aria-hidden="true"></div>
 
-
-		
 		<Header />
-		
-		<main class="max-w-5xl mx-auto px-4 pt-24 pb-12 flex-grow">
+
+		<main class="flex-grow">
 			<slot />
 		</main>
 
 		<Footer />
+		<ScrollTop />
+
+		<script>
+			// Scroll reveal: fades/lifts anything marked data-reveal into place once it enters
+			// the viewport. Re-scans after Astro's view-transition swaps so it keeps working
+			// on the projects/[slug] pages too.
+			const observer = new IntersectionObserver(
+				(entries) => {
+					for (const entry of entries) {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('in-view');
+							observer.unobserve(entry.target);
+						}
+					}
+				},
+				{ threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
+			);
+
+			const observeReveals = () => {
+				document.querySelectorAll('[data-reveal]:not(.in-view)').forEach((el) => observer.observe(el));
+			};
+			observeReveals();
+			document.addEventListener('astro:after-swap', observeReveals);
+
+			// Cursor glow: a soft radial highlight that eases toward the pointer. Skipped on
+			// touch devices and when the person prefers reduced motion.
+			// The glow element is replaced on every view-transition swap, so it is looked up
+			// fresh each frame instead of being cached (a cached reference goes stale and the
+			// glow silently stops following the cursor after navigating).
+			const canHover = window.matchMedia('(pointer: fine)').matches;
+			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			if (canHover && !reduceMotion) {
+				let targetX = window.innerWidth / 2;
+				let targetY = window.innerHeight / 2;
+				let currentX = targetX;
+				let currentY = targetY;
+				let active = false;
+				let raf = 0;
+
+				const getGlow = () => document.querySelector<HTMLElement>('[data-cursor-glow]');
+
+				const render = () => {
+					const glow = getGlow();
+					if (glow) {
+						currentX += (targetX - currentX) * 0.12;
+						currentY += (targetY - currentY) * 0.12;
+						glow.style.setProperty('--cx', `${currentX}px`);
+						glow.style.setProperty('--cy', `${currentY}px`);
+						glow.classList.toggle('is-active', active);
+					}
+					raf = requestAnimationFrame(render);
+				};
+
+				window.addEventListener(
+					'pointermove',
+					(e) => {
+						targetX = e.clientX;
+						targetY = e.clientY;
+						active = true;
+					},
+					{ passive: true },
+				);
+				document.addEventListener('pointerleave', () => {
+					active = false;
+				});
+				document.addEventListener('astro:before-swap', () => cancelAnimationFrame(raf));
+				document.addEventListener('astro:after-swap', () => {
+					cancelAnimationFrame(raf);
+					raf = requestAnimationFrame(render);
+				});
+
+				raf = requestAnimationFrame(render);
+			}
+		</script>
 	</body>
 </html>
 
@@ -50,13 +128,13 @@ const { title, description = "Portafolio de Desarrolladora Frontend" } = Astro.p
 		width: 10px;
 	}
 	::-webkit-scrollbar-track {
-		background: #0f172a; 
+		background: var(--bg); 
 	}
 	::-webkit-scrollbar-thumb {
-		background: #334155; 
+		background: var(--border); 
 		border-radius: 5px;
 	}
 	::-webkit-scrollbar-thumb:hover {
-		background: #475569; 
+		background: var(--fg-muted); 
 	}
 </style>

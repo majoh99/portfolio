@@ -2,13 +2,13 @@
 	"name": "Mariam Rosal",
 	"title": "Desarrolladora Frontend",
 	"tagline": "Desarrolladora Web & Ingeniera de Sistemas",
-	"image": "images/mariam-rosal.jpeg",
-	"bio": "Soy Desarrolladora Frontend con más de 6 años de experiencia y con formación como Ingeniera de Sistemas. Mi enfoque principal ha sido el diseño y desarrollo de sitios y aplicaciones web con interfaces de usuario atractivas y altamente funcionales, centrándome en brindar experiencias de usuario excepcionales. Mi responsabilidad, organización y capacidad para generar soluciones innovadoras han sido pilares fundamentales en los proyectos que he liderado.",
+	"image": "images/mariam-rosal.jpg",
+	"bio": "Hola! Soy Mariam Rosal, Desarrolladora Frontend e Ingeniera de Sistemas con más de 6 años de experiencia creando aplicaciones web, plataformas administrativas, sitios corporativos y soluciones de comercio digital. Especializada en Vue.js, TypeScript, Quasar y diseño de interfaces UI/UX funcionales, accesibles y adaptables a cualquier dispositivo. Combino enfoque técnico y de producto para transformar procesos complejos en experiencias claras y útiles para los usuarios.",
 	"email": "mariamrosalm@gmail.com",
 	"socials": [
 		{
 			"platform": "GitHub",
-			"url": "https://github.com/mariamrosal",
+			"url": "https://github.com/majoh99",
 			"icon": "github"
 		},
 		{

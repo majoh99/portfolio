@@ -1,100 +1,260 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Sunset palette */
+:root {
+	--bg: #FAF3E9;
+	--card: #FFFFFF;
+	--fg: #241B12;
+	--fg-muted: #6B5D4E;
+	--border: #EDE2D0;
+	--accent: #E8623A;
+	--accent-2: #F2A65A;
+	--success: #3FAE6A;
+	--marquee: #B3A48F;
+	--glow: 232, 98, 58;
+	--glow-2: 242, 166, 90;
+	--glow-alpha: 0.24;
+	--grain-opacity: 0.14;
+	--shadow-rgb: 36, 27, 18;
+	--grain-soft: 0.1;
+	--cursor-glow-a: 0.16;
+	--cursor-glow-b: 0.07;
+	--grain-strong: 0.3;
+	--grain-max: 0.38;
+	--subtle: #8B7A66;
+	--tab: #8B7A66;
+	--sunset: linear-gradient(155deg, #F2A65A 0%, #E8623A 55%, #C9502F 100%);
+	--sunset-border: transparent;
+	--on-sunset: #241B12;
+	--on-sunset-muted: #3A2113;
+	--on-sunset-inv: #FCE7D2;
+	--pill-bg: rgba(255, 255, 255, 0.5);
+	--pill-fg: #3A2113;
+	--pill-border: rgba(36, 27, 18, 0.12);
+	--hairline: rgba(36, 27, 18, 0.18);
+}
+
+:root.dark {
+	--bg: #1C130C;
+	--card: #241A11;
+	--fg: #FBEEDD;
+	--fg-muted: #C9B8A6;
+	--border: #3A2A1C;
+	--accent: #FF8562;
+	--accent-2: #F5B876;
+	--success: #4ADE80;
+	--marquee: #5F5142;
+	--glow: 255, 133, 98;
+	--glow-2: 245, 184, 118;
+	--glow-alpha: 0.22;
+	--grain-opacity: 0.09;
+	--shadow-rgb: 0, 0, 0;
+	--grain-soft: 0.07;
+	--cursor-glow-a: 0.07;
+	--cursor-glow-b: 0.03;
+	--grain-strong: 0.3;
+	--grain-max: 0.42;
+	--subtle: #C9B8A6;
+	--sunset: linear-gradient(155deg, #7A3A1E 0%, #4A2216 55%, #1C130C 100%);
+	--sunset-border: #3A2A1C;
+	--on-sunset: #FBEEDD;
+	--on-sunset-muted: #E9C7AC;
+	--on-sunset-inv: #1C130C;
+	--pill-bg: rgba(0, 0, 0, 0.25);
+	--pill-fg: #FBEEDD;
+	--pill-border: rgba(255, 255, 255, 0.15);
+	--hairline: rgba(251, 238, 221, 0.18);
+}
+
+@theme inline {
+	--font-display: "Bricolage Grotesque", sans-serif;
+	--font-body: "Work Sans", sans-serif;
+	--font-mono: "JetBrains Mono", monospace;
+	--color-bg: var(--bg);
+	--color-card: var(--card);
+	--color-fg: var(--fg);
+	--color-fg-muted: var(--fg-muted);
+	--color-border: var(--border);
+	--color-accent: var(--accent);
+	--color-accent-2: var(--accent-2);
+	--color-success: var(--success);
+	--color-marquee: var(--marquee);
+	--color-subtle: var(--subtle);
+	--color-tab: var(--tab);
+	--color-on-sunset: var(--on-sunset);
+	--color-on-sunset-muted: var(--on-sunset-muted);
+	--color-on-sunset-inv: var(--on-sunset-inv);
+	--color-pill: var(--pill-bg);
+	--color-pill-fg: var(--pill-fg);
+	--color-pill-border: var(--pill-border);
+	--color-hairline: var(--hairline);
+}
+
+/* Leave room for the fixed header when jumping to anchors */
+section[id],
+footer[id] {
+	scroll-margin-top: 5rem;
+}
+
 @layer components {
-	/* Reveal Animation Class */
+	/* Noise texture over the whole surface */
+	.grain {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		opacity: var(--grain-opacity);
+		mix-blend-mode: overlay;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	}
+
+	/* Radial accent glow, positioned by the consumer (never centered) */
+	.glow {
+		position: absolute;
+		pointer-events: none;
+		border-radius: 9999px;
+		background: radial-gradient(
+			circle,
+			rgba(var(--glow), var(--glow-alpha)),
+			rgba(var(--glow-2), 0.08) 45%,
+			rgba(var(--glow), 0) 72%
+		);
+	}
+
+	/* Grain variants: soft = regular sections, strong = highlighted blocks, max = contact only */
+	.grain-soft { opacity: var(--grain-soft); }
+	.grain-strong { opacity: var(--grain-strong); }
+	.grain-max { opacity: var(--grain-max); }
+
+	/* Softer glow without the amber mid stop (regular sections) */
+	.glow-soft {
+		background: radial-gradient(circle, rgba(var(--glow), 0.15), rgba(var(--glow), 0) 70%);
+	}
+
+	/* Intense "Grano" gradient: theme-aware (Trayectoria, Contacto) and fixed bright (Sobre mí panel) */
+	.bg-sunset { background: var(--sunset); }
+	.bg-sunset-bright { background: linear-gradient(150deg, #F2A65A 0%, #E8623A 50%, #C9502F 100%); }
+
+	/* One continuous ambient layer behind the whole page — fixed to the viewport so the
+	   grain + glow never restart or clip at a section boundary (no more "seams"). */
+	.ambient-bg {
+		position: fixed;
+		inset: 0;
+		z-index: -1;
+		overflow: hidden;
+		pointer-events: none;
+	}
+	.ambient-bg .grain { opacity: var(--grain-soft); }
+
+	/* Soft glow that follows the cursor. Toggled on via JS; skipped entirely on touch
+	   devices and prefers-reduced-motion. */
+	.cursor-glow {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 560px;
+		height: 560px;
+		margin-left: -280px;
+		margin-top: -280px;
+		border-radius: 9999px;
+		pointer-events: none;
+		z-index: -1;
+		background: radial-gradient(circle, rgba(var(--glow), var(--cursor-glow-a)), rgba(var(--glow-2), var(--cursor-glow-b)) 45%, rgba(var(--glow), 0) 72%);
+		transform: translate3d(var(--cx, 50vw), var(--cy, 50vh), 0);
+		opacity: 0;
+		transition: opacity 0.4s ease;
+		will-change: transform;
+	}
+	.cursor-glow.is-active { opacity: 1; }
+
+	/* Scroll reveal: opt in with data-reveal, stagger with a --delay custom property */
 	.reveal {
-		@apply opacity-0 translate-y-8 transition-all duration-1000 ease-out;
+		opacity: 0;
+		transform: translateY(28px);
+		transition: opacity 0.7s cubic-bezier(.16,.84,.44,1), transform 0.7s cubic-bezier(.16,.84,.44,1);
+		transition-delay: var(--delay, 0s);
 	}
-	.reveal.active {
-		@apply opacity-100 translate-y-0;
+	.reveal.in-view { opacity: 1; transform: none; }
+
+	.reveal-scale {
+		opacity: 0;
+		transform: translateY(18px) scale(0.96);
+		transition: opacity 0.6s cubic-bezier(.16,.84,.44,1), transform 0.6s cubic-bezier(.16,.84,.44,1);
+		transition-delay: var(--delay, 0s);
 	}
+	.reveal-scale.in-view { opacity: 1; transform: none; }
+
+	/* Project screenshots keep their real colors — instead of tinting them, they sit as a
+	   small "gallery print" inset on the card's own neutral mat, like a framed photo, so
+	   whatever palette the live site uses never fights the page around it. */
+	.shot-frame {
+		background: var(--card);
+		transition: background 0.25s ease;
+	}
+	.shot-inner {
+		position: relative;
+		box-shadow: 0 10px 22px -12px rgba(var(--shadow-rgb), 0.32);
+		transition: box-shadow 0.3s ease;
+	}
+	.shot-inner img {
+		filter: saturate(0.92) contrast(1.02);
+		transition: transform 0.4s ease, filter 0.3s ease;
+	}
+	.group:hover .shot-inner {
+		box-shadow: 0 16px 30px -14px rgba(var(--shadow-rgb), 0.4);
+	}
+	.group:hover .shot-inner img {
+		filter: saturate(1) contrast(1.02);
+	}
+
+	.fade-1 { animation: fadeUp 0.6s ease-out 0.1s both; }
+	.fade-2 { animation: fadeUp 0.6s ease-out 0.3s both; }
+	.fade-3 { animation: fadeUp 0.6s ease-out 0.5s both; }
+	.underline-draw { transform-origin: left; animation: drawUnderline 0.8s ease-out 0.9s both; }
+	.badge-float { animation: bob 5s ease-in-out infinite; }
+	.dot-pulse { animation: pulse 2s ease-in-out infinite; }
+	.animate-marquee { animation: marquee 16s linear infinite; }
+	.animate-marquee-reverse { animation: marquee-reverse 16s linear infinite; }
 }
 
-@layer utilities {
-	.animate-float {
-		animation: float 6s ease-in-out infinite;
-	}
-	.animate-marquee {
-		animation: marquee 25s linear infinite;
-	}
-	.animate-waveOrigin {
-		animation-name: wave;
-		animation-duration: 2.5s;
-		animation-iteration-count: infinite;
-		transform-origin: 70% 70%;
-		display: inline-block;
-	}
-	.animate-blob {
-		animation: blob 7s infinite;
-	}
-	.animation-delay-2000 {
-		animation-delay: 2s;
-	}
-	.animation-delay-4000 {
-		animation-delay: 4s;
-	}
-}
-
-@keyframes float {
-	0% {
-		transform: translateY(0px);
-	}
-	50% {
-		transform: translateY(-20px);
-	}
-	100% {
-		transform: translateY(0px);
-	}
+@keyframes bob {
+	0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+	50% { transform: translateY(-14px) rotate(var(--r, 0deg)); }
 }
 
 @keyframes marquee {
-	0% {
-		transform: translateX(0);
-	}
-	100% {
-		transform: translateX(-50%);
-	}
+	from { transform: translateX(0); }
+	to { transform: translateX(-50%); }
 }
 
-@keyframes blob {
-	0% {
-		transform: translate(0px, 0px) scale(1);
-	}
-	33% {
-		transform: translate(30px, -50px) scale(1.1);
-	}
-	66% {
-		transform: translate(-20px, 20px) scale(0.9);
-	}
-	100% {
-		transform: translate(0px, 0px) scale(1);
-	}
+@keyframes marquee-reverse {
+	from { transform: translateX(-50%); }
+	to { transform: translateX(0); }
 }
 
-@keyframes wave {
-	0% {
-		transform: rotate(0deg);
+@keyframes drawUnderline {
+	from { transform: scaleX(0); }
+	to { transform: scaleX(1); }
+}
+
+@keyframes fadeUp {
+	from { opacity: 0; transform: translateY(16px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+	0%, 100% { opacity: 1; }
+	50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fade-1, .fade-2, .fade-3, .underline-draw, .badge-float, .dot-pulse, .animate-marquee, .animate-marquee-reverse {
+		animation: none;
 	}
-	10% {
-		transform: rotate(14deg);
+	.reveal, .reveal-scale {
+		transition: none;
+		opacity: 1;
+		transform: none;
 	}
-	20% {
-		transform: rotate(-8deg);
-	}
-	30% {
-		transform: rotate(14deg);
-	}
-	40% {
-		transform: rotate(-4deg);
-	}
-	50% {
-		transform: rotate(10deg);
-	}
-	60% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(0deg);
-	}
+	.cursor-glow { display: none; }
 }
